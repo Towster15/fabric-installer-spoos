@@ -22,38 +22,29 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 
-import javax.swing.JOptionPane;
-
 public class UnsupInstaller {
-	protected static final String JAR_URL = "https://git.sleeping"
-			+ ".town/unascribed/unsup/releases/download/v1.1.4/unsup-1.1.4.jar";
+	protected static final String JAR_URL = "https://spoosaroo.com/pack/unsup.jar";
 	protected static final String INI_URL = "https://spoosaroo.com/pack/unsup.ini";
 
-	public static void installJar(Path mcPath) {
+	public static void installJar(Path mcPath) throws IOException {
 		downloadAndInstallFile(JAR_URL, mcPath, "/unsup.jar");
 	}
 
-	public static void installIni(Path mcPath) {
+	public static void installIni(Path mcPath) throws IOException {
 		downloadAndInstallFile(INI_URL, mcPath, "/unsup.ini");
 	}
 
-	protected static void downloadAndInstallFile(String url, Path mcPath, String filename) {
-		try (BufferedInputStream in =
-					new BufferedInputStream(new URL(url).openStream());
-				FileOutputStream fileOutputStream =
-						new FileOutputStream(mcPath + filename)) {
-			byte[] dataBuffer = new byte[1024];
-			int bytesRead;
+	protected static void downloadAndInstallFile(String url, Path mcPath, String filename) throws IOException {
+		BufferedInputStream in =
+			new BufferedInputStream(new URL(url).openStream());
+		// wah wah I'm throwing the exception
+		FileOutputStream fileOutputStream =
+				new FileOutputStream(mcPath + filename);
+		byte[] dataBuffer = new byte[1024];
+		int bytesRead;
 
-			while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-				fileOutputStream.write(dataBuffer, 0, bytesRead);
-			}
-		} catch (IOException e) {
-			// handle exception
-			JOptionPane.showMessageDialog(null, "Failed to download an"
-							+ "'unsup' file. The rest of the install should be okay. Ask"
-							+ "Thomas/Owen for help.", "Installation failure",
-					JOptionPane.ERROR_MESSAGE);
+		while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+			fileOutputStream.write(dataBuffer, 0, bytesRead);
 		}
 	}
 }
