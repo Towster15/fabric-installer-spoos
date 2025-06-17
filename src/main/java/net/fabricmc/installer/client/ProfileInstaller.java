@@ -18,6 +18,7 @@ package net.fabricmc.installer.client;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -82,15 +83,17 @@ public class ProfileInstaller {
 			Files.createDirectories(modsDir);
 		}
 
-		try {
-			if (Files.isDirectory(modsDir) && !Files.list(modsDir).findAny().isPresent()) {
-				JOptionPane.showMessageDialog(null, "Mods directory is "
-						+ "not empty - you may have modded the game before and will need to clear "
-						+ "your mods to prevent issues.");
+		if (Files.isDirectory(modsDir)) {
+			try (DirectoryStream<Path> directory = Files.newDirectoryStream(modsDir)) {
+				if (directory.iterator().hasNext()) {
+					JOptionPane.showMessageDialog(null, "Mods directory is "
+							+ "not empty - you may have modded the game before and will need to clear "
+							+ "your mods to prevent issues.");
+				}
+			} catch (IOException ioEx) {
+				JOptionPane.showMessageDialog(null, "Error checking if mods "
+						+ "directory is empty.");
 			}
-		} catch (IOException ioEx) {
-			JOptionPane.showMessageDialog(null, "Error checking if mods "
-					+ "directory is empty.");
 		}
 	}
 
