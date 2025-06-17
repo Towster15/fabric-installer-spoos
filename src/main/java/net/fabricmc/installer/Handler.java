@@ -92,6 +92,9 @@ public abstract class Handler implements InstallerProgress {
 
 		setupPane1(pane, c, installerGui);
 
+		addRow(pane, c, "prompt.game.version", createSpacer(), new JLabel("1.21.5 is the "
+				+ "server version and the only version that's guaranteed to work with the mods!"));
+
 		addRow(pane, c, "prompt.game.version",
 				gameVersionComboBox = new JComboBox<>(),
 				createSpacer(),
