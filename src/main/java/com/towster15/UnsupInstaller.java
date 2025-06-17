@@ -27,21 +27,21 @@ import javax.swing.JOptionPane;
 public class UnsupInstaller {
 	protected static final String JAR_URL = "https://git.sleeping"
 			+ ".town/unascribed/unsup/releases/download/v1.1.4/unsup-1.1.4.jar";
-	protected static final String INI_URL = "";
+	protected static final String INI_URL = "https://spoosaroo.com/pack/unsup.ini";
 
 	public static void installJar(Path mcPath) {
-		downloadAndInstallFile(JAR_URL, mcPath);
+		downloadAndInstallFile(JAR_URL, mcPath, "/unsup.jar");
 	}
 
 	public static void installIni(Path mcPath) {
-		downloadAndInstallFile(INI_URL, mcPath);
+		downloadAndInstallFile(INI_URL, mcPath, "/unsup.ini");
 	}
 
-	protected static void downloadAndInstallFile(String url, Path mcPath) {
+	protected static void downloadAndInstallFile(String url, Path mcPath, String filename) {
 		try (BufferedInputStream in =
 					new BufferedInputStream(new URL(url).openStream());
 				FileOutputStream fileOutputStream =
-						new FileOutputStream(mcPath + "/unsup.jar")) {
+						new FileOutputStream(mcPath + filename)) {
 			byte[] dataBuffer = new byte[1024];
 			int bytesRead;
 
