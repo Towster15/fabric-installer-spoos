@@ -37,6 +37,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
 
+import com.towster15.UnsupInstaller;
+
 import net.fabricmc.installer.Handler;
 import net.fabricmc.installer.InstallerGui;
 import net.fabricmc.installer.LoaderVersion;
@@ -110,6 +112,10 @@ public class ClientHandler extends Handler {
 					}
 
 					profileInstaller.setupProfile(profileName, gameVersion, launcherType);
+
+					// Download and install unsup
+					UnsupInstaller.installJar(mcPath);
+					UnsupInstaller.installIni(mcPath);
 				}
 
 				SwingUtilities.invokeLater(() -> showInstalledMessage(loaderVersion.name, gameVersion, mcPath.resolve("mods")));
@@ -229,8 +235,11 @@ public class ClientHandler extends Handler {
 
 	@Override
 	public void setupPane2(JPanel pane, GridBagConstraints c, InstallerGui installerGui) {
+		// We want to force a new profile to be created ideally
 		addRow(pane, c, null,
-				createProfile = new JCheckBox(Utils.BUNDLE.getString("option.create.profile"), true));
+				createProfile = new JCheckBox(Utils.BUNDLE.getString("option.create.profile"),
+				true));
+		createProfile.setEnabled(false);
 
 		installLocation.setText(Utils.findDefaultInstallDir().toString());
 	}

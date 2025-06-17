@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 
 import mjson.Json;
 
-import net.fabricmc.installer.util.Reference;
 import net.fabricmc.installer.util.Utils;
 
 public class ProfileInstaller {
@@ -61,7 +60,7 @@ public class ProfileInstaller {
 			jsonObject.set("profiles", profiles);
 		}
 
-		String profileName = Reference.LOADER_NAME + "-" + gameVersion;
+		String profileName = "Spoosaroo 2025 -" + gameVersion;
 
 		Json profile = profiles.at(profileName);
 
@@ -89,6 +88,10 @@ public class ProfileInstaller {
 		jsonObject.set("created", Utils.ISO_8601.format(new Date()));
 		jsonObject.set("lastUsed", Utils.ISO_8601.format(new Date()));
 		jsonObject.set("icon", Utils.getProfileIcon());
+		jsonObject.set("javaArgs", "-Xmx4G -XX:+UnlockExperimentalVMOptions "
+				+ "-XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20"
+				+ " -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M"
+				+ "-javaagent:unsup.jar");
 		return jsonObject;
 	}
 
