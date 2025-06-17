@@ -25,6 +25,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.JOptionPane;
+
 import mjson.Json;
 
 import net.fabricmc.installer.util.Utils;
@@ -60,7 +62,7 @@ public class ProfileInstaller {
 			jsonObject.set("profiles", profiles);
 		}
 
-		String profileName = "Spoosaroo 2025 -" + gameVersion;
+		String profileName = "Spoosaroo 2025 - " + gameVersion;
 
 		Json profile = profiles.at(profileName);
 
@@ -78,6 +80,17 @@ public class ProfileInstaller {
 
 		if (Files.notExists(modsDir)) {
 			Files.createDirectories(modsDir);
+		}
+
+		try {
+			if (Files.isDirectory(modsDir) && !Files.list(modsDir).findAny().isPresent()) {
+				JOptionPane.showMessageDialog(null, "Mods directory is "
+						+ "not empty - you may have modded the game before and will need to clear "
+						+ "your mods to prevent issues.");
+			}
+		} catch (IOException ioEx) {
+			JOptionPane.showMessageDialog(null, "Error checking if mods "
+					+ "directory is empty.");
 		}
 	}
 
