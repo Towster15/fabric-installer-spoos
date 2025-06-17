@@ -50,8 +50,9 @@ public class UnsupInstaller {
 			}
 		} catch (IOException e) {
 			// handle exception
-			new JOptionPane("Failed to download an 'unsup' file. The rest of "
-					+ "the install should be okay. Ask Thomas/Owen for help.",
+			JOptionPane.showMessageDialog(null, "Failed to download an"
+							+ "'unsup' file. The rest of the install should be okay. Ask"
+							+ "Thomas/Owen for help.", "Installation failure",
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
